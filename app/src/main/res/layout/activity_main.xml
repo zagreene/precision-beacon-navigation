@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="lilium.beaconnavigation.MainActivity">
+
+    <TextView
+        android:id="@+id/des"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:text="@string/des" />
+
+    <Spinner
+        android:id="@+id/rooms"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_toEndOf="@+id/des" />
+
+    <Button
+        android:id="@+id/getroute"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rooms"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:onClick="getRoute"
+        android:text="@string/route" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:background="@color/colorPrimaryDark"
+        android:gravity="center_horizontal">
+
+        <ImageButton
+            android:id="@+id/AddBeaconButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/background_light"
+            app:srcCompat="@android:drawable/ic_menu_add" />
+
+        <ImageButton
+            android:id="@+id/RemoveBeaconButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/background_light"
+            app:srcCompat="@android:drawable/ic_menu_delete" />
+
+        <ImageButton
+            android:id="@+id/WipeBeaconsButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/background_light"
+            app:srcCompat="@android:drawable/ic_menu_rotate" />
+
+        <ImageButton
+            android:id="@+id/AppConfigButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/background_light"
+            app:srcCompat="@android:drawable/ic_menu_agenda" />
+
+        <ImageButton
+            android:id="@+id/ToggleWalk"
+            android:layout_width="62dp"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:backgroundTint="@android:color/background_light"
+            android:textSize="@dimen/walk_btn_text_size"
+            app:srcCompat="@drawable/walk_img" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/MainFrame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/getroute">
+
+
+
+
+        <lilium.beaconnavigation.Views.DrawableImageView
+            android:id="@+id/map"
+            android:layout_width="match_parent"
+            android:layout_height="328dp"
+            android:adjustViewBounds="true" />
+
+        <ImageView
+            android:id="@+id/newBeaconMarker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="false"
+            app:srcCompat="@mipmap/newbeacon"
+            tools:visibility="invisible" />
+
+        <lilium.beaconnavigation.Views.kludgeListView
+            android:id="@+id/beaconListView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/appConfigView"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/background_light"
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            android:padding="10dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/config_layout_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="CONFIG"
+                android:textAlignment="center"
+                android:textAllCaps="true" />
+
+            <lilium.beaconnavigation.Views.TextOverlaySeekBar
+                android:id="@+id/config_mapwidth"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimaryDark"
+                app:seekbarMin="100"
+                app:seekbarMax="300"
+                app:progressWildCard="%p"
+                app:template="Map Width Constant: %p" />
+
+            <lilium.beaconnavigation.Views.TextOverlaySeekBar
+                android:id="@+id/config_mapheight"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimaryDark"
+                app:seekbarMin="100"
+                app:seekbarMax="300"
+                app:progressWildCard="%p"
+                app:template="Map Height Constant: %p" />
+
+
+            <!--Progress of 36 on this one equates to -84 db-->
+            <lilium.beaconnavigation.Views.TextOverlaySeekBar
+                android:id="@+id/config_monitor_filter_min"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimaryDark"
+                app:seekbarMin="-120"
+                app:seekbarMax="-30"
+                app:progressWildCard="%p"
+                app:template="Bluetooth Adv. dB Filter: %p" />
+
+            <lilium.beaconnavigation.Views.TextOverlaySeekBar
+                android:id="@+id/config_advert_queue_max_length"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimaryDark"
+                app:seekbarMin="1"
+                app:seekbarMax="20"
+                app:progressWildCard="%p"
+                app:template="Bluetooth Adv. Queue Max Length: %p" />
+
+            <lilium.beaconnavigation.Views.TextOverlaySeekBar
+                android:id="@+id/config_solver_max_iterations"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimaryDark"
+                app:seekbarMin="2"
+                app:seekbarMax="100000"
+                app:progressWildCard="%p"
+                app:template="Trilat. Solver Max Iterations: %p" />
+
+
+            <lilium.beaconnavigation.Views.TextOverlaySeekBar
+                android:id="@+id/config_max_quiet"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimaryDark"
+                app:seekbarMin="0"
+                app:seekbarMax="10000"
+                app:progressWildCard="%p"
+                app:template="Max Beacon Silence (ms): %p" />
+
+            <lilium.beaconnavigation.Views.TextOverlaySeekBar
+                android:id="@+id/config_min_position_delay"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimaryDark"
+                app:seekbarMin="0"
+                app:seekbarMax="10000"
+                app:progressWildCard="%p"
+                app:template="Min Position Update Delay (ms): %p" />
+
+
+            <lilium.beaconnavigation.Views.TextOverlaySeekBar
+                android:id="@+id/config_max_spawn_wait"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimaryDark"
+                app:seekbarMin="0"
+                app:seekbarMax="10000"
+                app:progressWildCard="%p"
+                app:template="Max Position Update Delay (ms): %p" />
+        </LinearLayout>
+        <lilium.beaconnavigation.Views.RssiMonitorView
+            android:layout_width="match_parent"
+            android:textAlignment="viewStart"
+            android:textSize="@dimen/text_size"
+            android:layout_height="wrap_content"
+            android:id="@+id/rssiAdvMonitorLabel"
+            android:visibility="visible" />
+    </FrameLayout>
+</RelativeLayout>
